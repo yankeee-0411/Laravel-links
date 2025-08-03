@@ -1,13 +1,11 @@
 services:
   - type: web
     name: laravel-links
-    runtime: php
+    env: docker
     plan: free
-    buildCommand: |
-      composer install --no-dev
-      php artisan config:cache
-      php artisan migrate --force
-    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: "php artisan serve --host=0.0.0.0 --port=8080"
     envVars:
       - key: APP_ENV
         value: production
@@ -18,8 +16,4 @@ services:
       - key: DB_CONNECTION
         value: sqlite
       - key: DB_DATABASE
-        value: /var/data/database.sqlite
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
+        value: /tmp/database.sqlite
